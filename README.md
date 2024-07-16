@@ -22,18 +22,19 @@ The complete Arch Linux install guide. Ext4 + grub
    lsblk
    ```
    
-   I recommend making partitions for /efi, swap, /root and /home
-4. Use a partition utility you are comfortable with, I will be using cfdisk
+   I recommend making partitions for `/efi, swap, /root` and `/home`
+   
+5. Use a partition utility you are comfortable with, I will be using cfdisk
    ```
    cfdisk /dev/sdb
    ```
    
-5. Setup your partition according to your needs, I will be using the following scheme:
+6. Setup your partition according to your needs, I will be using the following scheme:
    ```
-   /dev/sdb1  EFI  300MB
-   /dev/sdb2  SWAP  8GB
-   /dev/sdb3  Root  40GB
-   /dev/sdb4  Home  70GB
+   /dev/sdb1  EFI  300 MB
+   /dev/sdb2  SWAP  8 GB
+   /dev/sdb3  Root  40 GB
+   /dev/sdb4  Home  70 GB
    ```
    
    Write changes to disk and exit
@@ -74,7 +75,7 @@ The complete Arch Linux install guide. Ext4 + grub
    
 9. Configure mirrors using reflector
     ```
-    reflector --latest 40 reflector --download-timeout 10 --protocol http,https --sort rate --save /etc/pacman.d/mirrorlist
+    reflector --latest 40 --download-timeout 10 --protocol http,https --sort rate --save /etc/pacman.d/mirrorlist
     ```
 
 ## Install the Arch base system
@@ -113,7 +114,7 @@ The complete Arch Linux install guide. Ext4 + grub
    nano /etc/locale.gen
    ```
 
-   Locate and uncomment en_US.UTF-8 UTF-8
+   Locate and uncomment `en_US.UTF-8 UTF-8`
    
    Execute the following command
    ```
