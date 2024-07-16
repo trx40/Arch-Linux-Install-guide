@@ -105,7 +105,7 @@ The complete Arch Linux install guide. Ext4 + grub
 
 1. Configure time-zone
    ```
-   ln -sf /usr/share/zoneinfo/Asia/Dhaka /etc/localtime
+   ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
    ```
 
 2. Configure the localization
@@ -257,3 +257,63 @@ Now reboot the machine
 reboot
 ```
 
+## Adding your Windows boot entry to GRUB
+In your favorite terminal enter:
+
+    sudo fdisk -l
+
+You should get a long return that includes something like this:
+
+Device          Start        End    Sectors   Size Type
+/dev/sdb1        2048     206847     204800   100M EFI System
+/dev/sdb2      206848     239615      32768    16M Microsoft reserved
+/dev/sdb3      239616  268675071  268435456   128G Microsoft basic data
+/dev/sdb4   268675072 1679302655 1410627584 672.6G Microsoft basic data
+/dev/sdb5  1951934464 1953521663    1587200   775M Windows recovery environment
+/dev/sdb6  1679302656 1679917055     614400   300M EFI System
+/dev/sdb7  1679917056 1696694271   16777216     8G Linux swap
+/dev/sdb8  1696694272 1801551871  104857600    50G Linux filesystem
+/dev/sdb9  1801551872 1951934463  150382592  71.7G Linux filesystem
+
+    Get the UUID of the EFI partition
+    ```
+    sudo blkid /dev/sdb1 #(replace sdb1 with the correct partition for you)
+    ```
+
+Return: /dev/sdb1: UUID="4E18-B936" BLOCK_SIZE="512" TYPE="vfat" PARTLABEL="EFI system partition" PARTUUID="a794f5d7-beb1-4455-bd6a-74a122d6ab90"
+
+    Grant yourself write permission to the `'40_custom'` file in `/etc/grub.d`
+
+    Open the terminal (ctrl+alt+t) and run the following commands:
+    ```
+    cd /etc/grub.d
+    sudo chmod o+w 40_custom
+    ```
+    
+    Open the 40_custom file
+    ```
+    sudo nano ./40_custom
+    ```
+
+    Write the following at the bottom of the file and replace 4E18-B936 with the correct UUID:
+
+menuentry 'Windows 11' {
+    search --fs-uuid --no-floppy --set=root 4E18-B936
+    chainloader (${root})/EFI/Microsoft/Boot/bootmgfw.efi
+}
+
+    Save the file and close the editor.
+
+    Back in the terminal, remove write permissions.
+    ```
+    sudo chmod o-w 40_custom
+    ```
+
+    Update GRUB using
+    ```
+    grub-mkconfig -o /boot/grub/grub.cfg
+    ```
+
+    (Optional) You can confirm that your change was successful by going to /boot/grub/grub.cfg and checking lines 243-251. It should reflect your edits in the 40_custom file
+
+    Reboot your computer `reboot`
