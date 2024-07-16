@@ -260,11 +260,10 @@ reboot
 
 ## Adding your Windows boot entry to GRUB
 In your favorite terminal enter:
-
-    sudo fdisk -l
-
+```
+sudo fdisk -l
+```
 You should get a long return that includes something like this:
-
 ```
 Device          Start        End    Sectors   Size Type
 /dev/sdb1        2048     206847     204800   100M EFI System
@@ -278,45 +277,49 @@ Device          Start        End    Sectors   Size Type
 /dev/sdb9  1801551872 1951934463  150382592  71.7G Linux filesystem
 ```
 
-    Get the UUID of the EFI partition
+Get the UUID of the EFI partition
     ```
     sudo blkid /dev/sdb1 #(replace sdb1 with the correct partition for you)
     ```
 
-Return: /dev/sdb1: UUID="4E18-B936" BLOCK_SIZE="512" TYPE="vfat" PARTLABEL="EFI system partition" PARTUUID="a794f5d7-beb1-4455-bd6a-74a122d6ab90"
+Return: 
+```
+/dev/sdb1: UUID="4E18-B936" BLOCK_SIZE="512" TYPE="vfat" PARTLABEL="EFI system partition" PARTUUID="a794f5d7-beb1-4455-bd6a-74a122d6ab90"
+```
 
-    Grant yourself write permission to the `'40_custom'` file in `/etc/grub.d`
+Grant yourself write permission to the `'40_custom'` file in `/etc/grub.d`
 
-    Open the terminal (ctrl+alt+t) and run the following commands:
+   Open the terminal (ctrl+alt+t) and run the following commands:
     ```
     cd /etc/grub.d
     sudo chmod o+w 40_custom
     ```
     
-    Open the 40_custom file
+   Open the 40_custom file
     ```
     sudo nano ./40_custom
     ```
 
-    Write the following at the bottom of the file and replace 4E18-B936 with the correct UUID:
-
+Write the following at the bottom of the file and replace 4E18-B936 with the correct UUID:
+```
 menuentry 'Windows 11' {
     search --fs-uuid --no-floppy --set=root 4E18-B936
     chainloader (${root})/EFI/Microsoft/Boot/bootmgfw.efi
 }
+```
 
-    Save the file and close the editor.
+Save the file and close the editor.
 
-    Back in the terminal, remove write permissions.
+Back in the terminal, remove write permissions.
     ```
     sudo chmod o-w 40_custom
     ```
 
-    Update GRUB using
+Update GRUB using
     ```
     grub-mkconfig -o /boot/grub/grub.cfg
     ```
 
-    (Optional) You can confirm that your change was successful by going to /boot/grub/grub.cfg and checking lines 243-251. It should reflect your edits in the 40_custom file
+(Optional) You can confirm that your change was successful by going to /boot/grub/grub.cfg and checking lines 243-251. It should reflect your edits in the 40_custom file
 
-    Reboot your computer `reboot`
+Reboot your computer `reboot`
