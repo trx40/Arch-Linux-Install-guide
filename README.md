@@ -11,19 +11,23 @@ The complete Arch Linux install guide. Ext4 + grub
    ```
    ls /sys/firmware/efi/efivars
    ```
+   
 2. Enable NTP to synchronize system clock
    ```
    timedatectl set-ntp true
    ```
+   
 3. Get an overview of your disks and plan your partition scheme
    ```
    lsblk
    ```
+   
    I recommend making partitions for /efi, swap, /root and /home
 4. Use a partition utility you are comfortable with, I will be using cfdisk
    ```
    cfdisk /dev/sdb
    ```
+   
 5. Setup your partition according to your needs, I will be using the following scheme:
    ```
    /dev/sdb1  EFI  300MB
@@ -31,8 +35,10 @@ The complete Arch Linux install guide. Ext4 + grub
    /dev/sdb3  Root  40GB
    /dev/sdb4  Home  70GB
    ```
+   
    Write changes to disk and exit
-6. Format the partitions
+   
+7. Format the partitions
    EFI
    ```
    mkfs.fat -F32 /dev/sdb1
@@ -49,7 +55,8 @@ The complete Arch Linux install guide. Ext4 + grub
    ```
    mkfs.ext4 /dev/sdb4
    ```
-7. Mount your partitions
+   
+8. Mount your partitions
    SWAP
    ```
    swapon /dev/sdb2
@@ -64,3 +71,23 @@ The complete Arch Linux install guide. Ext4 + grub
 
    mount /dev/sdb4 /mnt/home
    ```
+   
+9. Configure mirrors using reflector
+    ```
+    reflector --latest 40 reflector --download-timeout 10 --protocol http,https --sort rate --save /etc/pacman.d/mirrorlist
+    ```
+
+## Install the Arch base system
+
+1. Synchronize the repositories
+    ```
+    pacman -Sy
+    ```
+
+2. Bootstrap the system
+   ```
+   pacstrap /mnt base base-devel linux linux-firmware sudo nano ntfs-3g networkmanager git curl kate dolphin firefox
+   ```
+
+3. Generate the fstab file
+   >The fstab file can be used to define how disk partitions, various other block devices, or remote file systems should be mounted into the file system.
