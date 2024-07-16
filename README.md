@@ -265,6 +265,7 @@ In your favorite terminal enter:
 
 You should get a long return that includes something like this:
 
+```
 Device          Start        End    Sectors   Size Type
 /dev/sdb1        2048     206847     204800   100M EFI System
 /dev/sdb2      206848     239615      32768    16M Microsoft reserved
@@ -275,6 +276,7 @@ Device          Start        End    Sectors   Size Type
 /dev/sdb7  1679917056 1696694271   16777216     8G Linux swap
 /dev/sdb8  1696694272 1801551871  104857600    50G Linux filesystem
 /dev/sdb9  1801551872 1951934463  150382592  71.7G Linux filesystem
+```
 
     Get the UUID of the EFI partition
     ```
