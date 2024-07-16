@@ -183,7 +183,7 @@ The complete Arch Linux install guide. Ext4 + grub
     ```
 
     ```
-    mount /dev/sda1 /boot/efi
+    mount /dev/sdb1 /boot/efi
     ```
 
 10. Install GRUB
