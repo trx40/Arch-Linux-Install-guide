@@ -213,7 +213,7 @@ The complete Arch Linux install guide. Ext4 + grub
    # for nvidia graphics processing unit
    pacman -S nvidia nvidia-utils
 
-   # for amd discreet and integrated graphics processing unit
+   # for amd discrete and integrated graphics processing unit
    pacman -S xf86-video-amdgpu
 
    # for intel integrated graphics processing unit
