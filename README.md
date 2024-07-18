@@ -323,3 +323,27 @@ Update GRUB using
 (Optional) You can confirm that your change was successful by going to /boot/grub/grub.cfg and checking lines 243-251. It should reflect your edits in the 40_custom file
 
 Reboot your computer `reboot`
+
+## Configuring `makepkg.conf` 
+makepkg can take a lot of time for AUR package installation if it compresses the image before installing as compression is only required of you are going to upload it to AUR
+
+```
+sudo nano /etc/makepkg.conf
+```
+
+PKGEXT='.pkg.tar.xz'
+to
+```
+PKGEXT='.pkg.tar'
+```
+
+## Enable nano syntax highlighting
+```
+cat /usr/share/nano/sh.nanorc >> ~/.nanorc
+```
+
+Enter 
+```
+ls /usr/share/nano/extra
+```
+to check out more nano syntax configuration for various languages.
